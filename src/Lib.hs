@@ -1,6 +1,17 @@
 module Lib
-    ( someFunc
+    ( getName,
+    countWords,
+    countOcc
     ) where
 
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
+getName :: String -> String
+getName name = "Hello " ++ name
+
+countWords :: String -> Int
+countWords input = sum $ map (length . words) (lines input)
+
+countOcc :: Eq a => a -> [a] -> Int
+countOcc want [] = 0
+countOcc want list = sum $
+ map(const 1) $
+ filter (==want) list
