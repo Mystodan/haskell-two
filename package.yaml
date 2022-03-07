@@ -21,14 +21,17 @@ description:         Please see the README on GitHub at <https://github.com/gith
 
 dependencies:
 - base >= 4.7 && < 5
+- random 
+- time
 
 library:
-  source-dirs: src
+  source-dirs: 
+    - "src"
 
 executables:
   hello-name-exe:
     main:                Hello-Name.hs
-    source-dirs:         app
+    source-dirs:         helloname
     ghc-options:
     - -threaded
     - -rtsopts
@@ -37,8 +40,8 @@ executables:
     - haskell-two
 
   word-count-exe:
-    main:                word-Count.hs
-    source-dirs:         app
+    main:                Word-Count.hs
+    source-dirs:         wordcount
     ghc-options:
     - -threaded
     - -rtsopts
@@ -46,6 +49,16 @@ executables:
     dependencies:
     - haskell-two
 
+  guess-number-exe:
+    main:                Guess-Number.hs
+    source-dirs:         guessnumber
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - haskell-two
+  
 tests:
   haskell-two-test:
     main:                Spec.hs

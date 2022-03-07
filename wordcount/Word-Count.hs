@@ -7,4 +7,4 @@ import Lib(
 main :: IO ()
 main = do
   input <- getContents 
-  putStrLn(show(countOcc '\n' input) ++ " " ++ show(countWords input)) 
+  putStrLn( show(countWords input) ++ " " ++ show(countOcc '\n' input)) 
