@@ -6,7 +6,6 @@ import Data.Time ( getCurrentTime, UTCTime(utctDayTime) )
 main :: IO ()
 main = do
   currTime<- getCurrentTime
-  input <- getContents 
-  let seed = floor $ utctDayTime currTime ::Int
-  let (num,_) = genRandNum seed
-  compareNum num
+  let (min, max, seed) = (1::Int,100::Int, floor $ utctDayTime currTime ::Int)
+  let (num,_) = genRandNum min max seed
+  compareNum min max num

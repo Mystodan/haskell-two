@@ -36,6 +36,20 @@ library
     , time
   default-language: Haskell2010
 
+executable count-birds-exe
+  main-is: Count-Birds.hs
+  other-modules:
+      Paths_haskell_two
+  hs-source-dirs:
+      countbirds
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , haskell-two
+    , random
+    , time
+  default-language: Haskell2010
+
 executable guess-number-exe
   main-is: Guess-Number.hs
   other-modules:
@@ -56,6 +70,20 @@ executable hello-name-exe
       Paths_haskell_two
   hs-source-dirs:
       helloname
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , haskell-two
+    , random
+    , time
+  default-language: Haskell2010
+
+executable pairs-d-exe
+  main-is: Pairs-D.hs
+  other-modules:
+      Paths_haskell_two
+  hs-source-dirs:
+      pairsd
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5

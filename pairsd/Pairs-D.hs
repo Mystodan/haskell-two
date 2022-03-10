@@ -1,10 +1,8 @@
 module Main where
-
-import Lib
+import Lib ( getPair, readNumbers )
 
 main :: IO ()
 main = do
-  putStrLn "What is your name?"
-  name <- getLine 
-  let statement = getName name 
-  putStrLn statement
+  list <- getLine
+  let (returnList, listSize) =  (getPair (readNumbers list), length returnList)
+  putStrLn (show listSize ++ "\n" ++ show returnList)
