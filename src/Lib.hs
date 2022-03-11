@@ -14,6 +14,7 @@ import System.Random (mkStdGen, Random (randomR), StdGen)
 import Data.Time.Clock (getCurrentTime, utctDayTime)
 import Data.Function
 import Data.List
+import System.IO
 
 getName :: String -> String
 getName name = "Hello " ++ name
@@ -33,16 +34,20 @@ genRandNum min max seed = randomR (min,max) $ mkStdGen seed
 compareNum :: Int -> Int ->  Int ->  IO ()
 compareNum min max want = do
   putStrLn ("Please guess a number between "++ show min ++" and "++show max)
+  hFlush stdout
   inn <- getLine
   let readString = read inn ::Int
   if readString < want then do
     putStrLn "Too small..."
+    hFlush stdout
     compareNum min max want
   else if readString > want then do
     putStrLn "Too much..."
+    hFlush stdout
     compareNum min max want
   else do
     putStrLn "You Won! You guessed the number, congratulations!"
+    hFlush stdout
 
 it :: [Int] -> Int -> Int
 it list it = list!!it

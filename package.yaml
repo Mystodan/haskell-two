@@ -79,6 +79,16 @@ executables:
     dependencies:
     - haskell-two
 
+  hack-number-exe:
+    main:                Hack-Number.hs
+    source-dirs:         hacknumber
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - haskell-two
+
 tests:
   haskell-two-test:
     main:                Spec.hs

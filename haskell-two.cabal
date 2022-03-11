@@ -64,6 +64,20 @@ executable guess-number-exe
     , time
   default-language: Haskell2010
 
+executable hack-number-exe
+  main-is: Hack-Number.hs
+  other-modules:
+      Paths_haskell_two
+  hs-source-dirs:
+      hacknumber
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , haskell-two
+    , random
+    , time
+  default-language: Haskell2010
+
 executable hello-name-exe
   main-is: Hello-Name.hs
   other-modules:
