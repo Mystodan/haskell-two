@@ -8,11 +8,11 @@ module Lib
     it,
     getPair,
     countBirds,
-    checkNum) where
+    checkNum,
+    getGuessHack) where
 
 import System.Random (mkStdGen, Random (randomR), StdGen)
 import Data.Time.Clock (getCurrentTime, utctDayTime)
-import Data.Function
 import Data.List
 import System.IO
 
@@ -33,8 +33,8 @@ genRandNum min max seed = randomR (min,max) $ mkStdGen seed
 
 compareNum :: Int -> Int ->  Int ->  IO ()
 compareNum min max want = do
-  putStrLn ("Please guess a number between "++ show min ++" and "++show max)
-  hFlush stdout
+ {-  putStrLn ("Please guess a number between "++ show min ++" and "++show max)
+  hFlush stdout -}
   inn <- getLine
   let readString = read inn ::Int
   if readString < want then do
@@ -64,5 +64,26 @@ getPair :: [Int] -> [(Int,Int)]
 getPair[] = []
 getPair (elem:list) = [(i,j) | i <- [0..length list-1], j <- [i+1..length list-1], checkNum (it list i) (it list j) elem]
 
-countBirds:: [Int] -> Int 
-countBirds = head . maximumBy (on compare length) . group . sort
+countBirds:: [Int] -> Int
+countBirds =  abs . snd . maximum . map (\xs -> (length xs, -(head xs))) . group . sort
+
+getGuessHack:: String -> Int -> IO ()
+getGuessHack inn prev = do
+  if inn == "Too much..." then do
+    print $ prev-1
+    hFlush stdout
+    inn <- getLine
+    getGuessHack inn $ prev-1
+  else if inn == "Too small..." then do
+    print $ prev+1
+    hFlush stdout
+    inn <- getLine
+    getGuessHack inn $ prev+1
+  else if inn == "Please guess a number between 1 and 100" then do
+    inn <- getLine
+    getGuessHack inn prev
+  else if inn == "You Won! You guessed the number, congratulations!" then do
+    putStrLn "Done"
+  else do
+    putStrLn $ "ERR - GOT INVALID STRING: ->["++inn++"]"
+ 

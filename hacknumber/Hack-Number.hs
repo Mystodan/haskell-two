@@ -1,6 +1,12 @@
 module Main where
 
-import Lib (  )
+import System.IO
+
+import Lib (getGuessHack)
 
 main :: IO ()
-main = putStrLn ""
+main = do
+  print 50
+  hFlush stdout
+  inn <- getLine
+  getGuessHack inn 50

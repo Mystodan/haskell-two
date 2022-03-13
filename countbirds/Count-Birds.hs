@@ -2,6 +2,7 @@ module Main where
 
 import Lib(readNumbers,countBirds)
 
+
 main :: IO ()
 main = do
   birbs <- getLine 
