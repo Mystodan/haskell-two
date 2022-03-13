@@ -3,87 +3,119 @@ module Lib
     countWords,
     countOcc,
     genRandNum,
-    compareNum,
     readNumbers,
-    it,
     getPair,
     countBirds,
-    checkNum,
-    getGuessHack) where
+    checkNum) where
 
 import System.Random (mkStdGen, Random (randomR), StdGen)
 import Data.Time.Clock (getCurrentTime, utctDayTime)
-import Data.List
-import System.IO
+import Data.List ( sort, group )
+import System.IO ( stdout, hFlush )
 
+-- | getName
+--
+-- Examples:
+--
+-- >>> getName "Jason"
+-- "Hello Jason"
+-- >>>  getName "BOB"
+-- "Hello BOB"
+-- >>>  getName ""
+-- ""
 getName :: String -> String
+getName [] = ""
 getName name = "Hello " ++ name
 
+-- | countWords
+--
+-- Examples:
+--
+-- >>> countWords "Jason Bourne" 
+-- 2
+-- >>>  countWords "BOB DYLAN IS OP"
+-- 4
 countWords :: String -> Int
+countWords [] = 0
 countWords input = sum $ map (length . words) (lines input)
 
+-- | countOcc
+--
+-- Examples:
+--
+-- >>> countOcc 'J' "Jason, Jason Bourne" 
+-- 2
+-- >>>  countOcc 'B' "BOB DYLAN IS OP"
+-- 2
+-- >>>  countOcc '!' ""
+-- 0
 countOcc :: Eq a => a -> [a] -> Int
 countOcc want [] = 0
 countOcc want list = sum $
  map(const 1) $
  filter (==want) list
 
-genRandNum:: Int -> Int -> Int -> (Int,System.Random.StdGen)
-genRandNum min max seed = randomR (min,max) $ mkStdGen seed
+-- | genRandNum
+--
+-- Examples:
+--
+-- >>>  genRandNum 1 10 1 
+-- 6
+-- >>>  genRandNum 1 100 45
+-- 55
+genRandNum:: Int -> Int -> Int -> Int
+genRandNum min max seed = do 
+  let (retNum,_) = randomR (min,max) $ mkStdGen seed
+  retNum
 
-compareNum :: Int -> Int ->  Int ->  IO ()
-compareNum min max want = do
- {-  putStrLn ("Please guess a number between "++ show min ++" and "++show max)
-  hFlush stdout -}
-  inn <- getLine
-  let readString = read inn ::Int
-  if readString < want then do
-    putStrLn "Too small..."
-    hFlush stdout
-    compareNum min max want
-  else if readString > want then do
-    putStrLn "Too much..."
-    hFlush stdout
-    compareNum min max want
-  else do
-    putStrLn "You Won! You guessed the number, congratulations!"
-    hFlush stdout
-
-it :: [Int] -> Int -> Int
-it list it = list!!it
-
+-- | readNumbers
+--
+-- Examples:
+--
+-- >>> readNumbers "1 2 3 4 5" 
+-- [1,2,3,4,5]
+-- >>>  readNumbers "5 4 3 2 1"
+-- [5,4,3,2,1]
 readNumbers :: String -> [Int]
 readNumbers = map read . words
 
+-- | checkNum
+--
+-- Examples:
+--
+-- >>> checkNum 1 10 1 
+-- True
+-- >>>  checkNum 1 2 5 
+-- False
 checkNum :: Int -> Int -> Int -> Bool
 checkNum elem num want
  | (elem + num) `mod` want == 0 = True
  | otherwise = False
 
+-- | getPair
+--
+-- Examples:
+--
+-- >>> getPair (readNumbers "5 0 1 2 3 4 5 6")
+-- [(0,5),(1,4),(2,3),(4,6)]
+-- >>>  getPair (readNumbers "")
+-- []
 getPair :: [Int] -> [(Int,Int)]
 getPair[] = []
-getPair (elem:list) = [(i,j) | i <- [0..length list-1], j <- [i+1..length list-1], checkNum (it list i) (it list j) elem]
+getPair (elem:list) = [(i,j) | i <- [0..length list-1], j <- [i+1..length list-1], checkNum (list!!i) (list!!j) elem]
 
+-- | countBirds
+--
+-- Examples:
+--
+-- >>> countBirds (readNumbers "1 10 1")
+-- 1
+-- >>>  countBirds (readNumbers "1 2 5 5")
+-- 5
+-- >>>  countBirds (readNumbers "5 4 3 2 1")
+-- 1
 countBirds:: [Int] -> Int
 countBirds =  abs . snd . maximum . map (\xs -> (length xs, -(head xs))) . group . sort
 
-getGuessHack:: String -> Int -> IO ()
-getGuessHack inn prev = do
-  if inn == "Too much..." then do
-    print $ prev-1
-    hFlush stdout
-    inn <- getLine
-    getGuessHack inn $ prev-1
-  else if inn == "Too small..." then do
-    print $ prev+1
-    hFlush stdout
-    inn <- getLine
-    getGuessHack inn $ prev+1
-  else if inn == "Please guess a number between 1 and 100" then do
-    inn <- getLine
-    getGuessHack inn prev
-  else if inn == "You Won! You guessed the number, congratulations!" then do
-    putStrLn "Done"
-  else do
-    putStrLn $ "ERR - GOT INVALID STRING: ->["++inn++"]"
+
  
