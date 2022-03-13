@@ -17,7 +17,7 @@ import Lib ( getName,
 main :: IO ()
 main = do 
   doctest ["-isrc", "src/Lib.hs"]
-
+  
   hspec $ do
     describe "getName" $ do
       it "greets a given person" $ do
